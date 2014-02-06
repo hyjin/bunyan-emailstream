@@ -1,0 +1,30 @@
+{
+  "name": "bunyan-emailstream",
+  "version": "1.0.0",
+  "description": "Send email on bunyan log record",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyjin/bunyan-emailstream.git"
+  },
+  "keywords": [
+    "bunyan",
+    "email",
+    "stream"
+  ],
+  "author": "Hyungjin Kim <kim@hyjin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyjin/bunyan-emailstream/issues"
+  },
+  "homepage": "https://github.com/hyjin/bunyan-emailstream",
+  "dependencies": {
+    "nodemailer": "~0.6.x"
+  },
+  "devDependencies": {
+    "bunyan": "~0.22.1"
+  }
+}
