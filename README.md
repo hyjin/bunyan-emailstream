@@ -138,15 +138,17 @@ event will be emitted when `nodemailer.transport.sendMail` callback with error.
 
 ### Message Customization
 
-#### Body formatter
+#### Formatting body
 
-`EmailFormatter#bodyFormatter` will be called in order to format body
-text.
+`EmailStream#formatBody` will be called in order to format body
+text. You may set custom formatter on module's exported `formatBody` or
+instance's method `formatBody`.
 
 You can set your own formatter like this:
 
 ```js
-emailStream.bodyFormatter = function (log) {
+// Setting custom formatter on EmailStream instance.
+emailStream.formatBody = function (log) {
     // log is bunyan log record object
 
     var rows = [];
@@ -167,15 +169,16 @@ emailStream.bodyFormatter = function (log) {
 });
 ```
 
-#### Subject formatter
+#### Formatting subject
 
-Just like body formatter, `EmailFormatter#subjectFormatter` will be
-called in order to format body text.
+Just like formatting body `EmailStream#formatSubject` will be
+called in order to format subject text.
 
 You can set your own formatter like this:
 
 ```js
-emailStream.subjectFormatter = function (log) {
+// Setting custom formatter on EmailStream instance.
+emailStream.formatSubject = function (log) {
     // log is bunyan log record object
 
     return util.format(
