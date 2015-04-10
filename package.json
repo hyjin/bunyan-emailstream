@@ -1,6 +1,6 @@
 {
   "name": "bunyan-emailstream",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Send email on bunyan log record",
   "main": "index.js",
   "scripts": {
