@@ -5,7 +5,7 @@ Send email on bunyan log record.
 
 This module is cheap way to send email on
 [bunyan](https://github.com/trentm/node-bunyan) log record using
-[nodemailer](https://github.com/andris9/Nodemailer).
+[nodemailer](https://github.com/andris9/Nodemailer/tree/0.7).
 
 ## Quick Usage Example
 
@@ -79,10 +79,11 @@ var emailStream = new EmailStream(mailOptions, transportOptions);
 ```
 
 Where,
-* _mailOptions_ is options of composing email message. see
-[mailOptions](#mailOptions) section.
-* transportOptions is options for nodemailer's transport. see
-[transportOptions](#transportOptions) section.
+* `mailOptions` is options of composing email message. See
+[mailOptions](#mailoptions-required) for more detail.
+* `transportOptions` is options for nodemailer's `createTransport` except `type` property should be specified in the object. When `type` is omitted `'SENDMAIL'` will be used by default.
+Refer
+[transportOptions](#transportoptions) section for detailed options.
 
 Pass to bunyan logger as a 'raw' type stream
 
@@ -105,12 +106,12 @@ process.on('uncaughtException', function (err) {
     process.exit(1);
 });
 ```
-### Coniguration
+### Configuration
 #### mailOptions (required)
 
 mailOptions will be passed to `nodemail.transport.sendMail()` when log
 record comes via `EmailStream#write`.
-See [nodemailer document](https://github.com/andris9/Nodemailer/blob/master/README.md#e-mail-message-fields)
+See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7#e-mail-message-fields)
 for full list of options.
 
 #### transportOptions
@@ -119,7 +120,7 @@ for full list of options.
 
 Except `type` property, the option object will be passed to
 `nodemail.createTransport()`.
-See [nodemailer document](https://github.com/andris9/Nodemailer/blob/master/README.md)
+See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7)
 for available transport and full list of options.
 
 ### Events
@@ -128,7 +129,7 @@ for available transport and full list of options.
 
 This event will be emitted on callback of
 `nodemailer.transport.sendMail()`. The arguments passed to event listeners
-are identical to `responseStatus` object described at [nodemailer 
+are identical to `responseStatus` object described at [nodemailer
 document](https://github.com/andris9/Nodemailer/blob/master/README.md#return-callback)
 
 #### Event: `error`

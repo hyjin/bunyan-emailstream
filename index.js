@@ -32,13 +32,15 @@ function EmailStream(mailOptions, transportOptions) {
 
     this._mailOptions = extend({}, mailOptions);
 
-    var transportType = transportOptions.type &&
-        transportOptions.type.toUpperCase() ||
+    this._transportOptions = extend({}, transportOptions);
+
+    this._transportType = this._transportOptions.type &&
+        this._transportOptions.type.toUpperCase() ||
         'SENDMAIL';
 
-    delete transportOptions.type;
+    delete this._transportOptions.type;
 
-    this._transport = nodemailer.createTransport(transportType, transportOptions);
+    this._transport = nodemailer.createTransport(this._transportType, this._transportOptions);
 
     this.formatSubject = exports.formatSubject;
     this.formatBody = exports.formatBody;
