@@ -10,15 +10,26 @@ This module is cheap way to send email on
 ## Quick Usage Example
 
 Here is a simple example to send 'fatal' level log messages to
-`me@example.com`.
+`me@example.com` via gmail's SMTP service.
 
 ```js
 var bunyan = require('bunyan');
 var EmailStream = require('bunyan-emailstream').EmailStream;
 
-var emailStream = new EmailStream({
+var emailStream = new EmailStream(
+  // Nodemailer mailOptions
+  { from: 'fatal@example.com',
     to: 'me@example.com'
-});
+  },
+  // Nodemailer transportOptions
+  { type: 'SMTP',
+    service: 'gmail',
+    auth: {
+      user: 'username',
+      pass: 'password'
+    }
+  }
+);
 
 var myLogger = bunyan.createLogger({
     name: 'SleepBreaker',
@@ -81,7 +92,9 @@ var emailStream = new EmailStream(mailOptions, transportOptions);
 Where,
 * `mailOptions` is options of composing email message. See
 [mailOptions](#mailoptions-required) for more detail.
-* `transportOptions` is options for nodemailer's `createTransport` except `type` property should be specified in the object. When `type` is omitted `'SENDMAIL'` will be used by default.
+* `transportOptions` is options for nodemailer's `createTransport`
+  except `type` property may be specified in the object. When `type` is omitted
+`'SENDMAIL'` will be used by default.
 Refer
 [transportOptions](#transportoptions) section for detailed options.
 
@@ -116,10 +129,14 @@ for full list of options.
 
 #### transportOptions
 
-* **type**: _(optional)_ transport type passed to `nodemail.createTransport()`. Default is 'SENDMAIL'.
+You may need to specify transport type in the `transportOptions`.
 
-Except `type` property, the option object will be passed to
-`nodemail.createTransport()`.
+* **type**: _(optional)_ transport type passed to
+  `nodemail.createTransport()`. Default is `'SENDMAIL'`.
+
+`type` property will be extracted from the object and passed to first
+argument of `nodemail.createTransport(type, options)`, the remaining
+object will be passed to second argument.
 See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7)
 for available transport and full list of options.
 
