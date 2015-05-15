@@ -26,21 +26,15 @@ exports.EmailStream = EmailStream;
 exports.formatSubject = formatSubject;
 exports.formatBody = formatBody;
 
-function EmailStream(mailOptions, transportOptions) {
+function EmailStream(mailOptions, transporter) {
     Stream.call(this);
     this.writable = true;
 
     this._mailOptions = extend({}, mailOptions);
+    this._transport = nodemailer.createTransport(transporter);
 
-    this._transportOptions = extend({}, transportOptions);
-
-    this._transportType = this._transportOptions.type &&
-        this._transportOptions.type.toUpperCase() ||
-        'SENDMAIL';
-
-    delete this._transportOptions.type;
-
-    this._transport = nodemailer.createTransport(this._transportType, this._transportOptions);
+    this._bodyType = mailOptions.bodyType || 'text';
+    delete mailOptions.bodyType;
 
     this.formatSubject = exports.formatSubject;
     this.formatBody = exports.formatBody;
@@ -55,7 +49,7 @@ EmailStream.prototype.write = function (log) {
     if (! message.subject) {
         message.subject = this.formatSubject(log);
     }
-    message.text = this.formatBody(log);
+    message[this._bodyType] = this.formatBody(log);
 
     this._transport.sendMail(message, function (err, response) {
         if (err) {
