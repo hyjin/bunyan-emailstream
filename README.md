@@ -91,9 +91,8 @@ var emailStream = new EmailStream(mailOptions, transporter);
 Where,
 * `mailOptions` is options of composing email message. See
 [mailOptions](#mailoptions-required) for more detail.
-* `transporter` is one for nodemailer's [avalible transports](https://github.com/andris9/Nodemailer#available-transports)
-Refer
-[transporter](#transporter) section for detailed options.
+* `transporter` is one for nodemailer's [avalible transports](https://github.com/andris9/Nodemailer#available-transports).
+Refer [transporter](#transporter) section for detailed options.
 
 Pass to bunyan logger as a 'raw' type stream
 
@@ -131,7 +130,9 @@ for full list of options.
 
 #### transporter
 
-`transporter` is argument for `modemailer.createTransport()`, one for nodemailer's [avalible transports](https://github.com/andris9/Nodemailer#available-transports), or plain object (creates SMTP transport). When omitted SMTP direct transport will be used by default.
+`transporter` is argument for `modemailer.createTransport()`, one for nodemailer's
+[avalible transports](https://github.com/andris9/Nodemailer#available-transports),
+or plain object (creates SMTP transport). When omitted SMTP direct transport will be used by default.
 
 See [nodemailer document](https://github.com/andris9/Nodemailer#setting-up)
 for available transports and full list of options.
