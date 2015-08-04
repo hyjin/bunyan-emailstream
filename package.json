@@ -1,5 +1,5 @@
 {
-  "name": "bunyan-emailstream",
+  "name": "bunyan-emailstream2",
   "version": "1.1.0",
   "description": "Send email on bunyan log record",
   "main": "index.js",
@@ -16,10 +16,9 @@
     "stream"
   ],
   "author": "Hyungjin Kim <kim@hyjin.com>",
-  "contributors": [{
-    "name": "Danil Greben",
-    "email": "greben.danil@gmail.com"
-  }],
+  "contributors": [
+    "Danil Greben <greben.danil@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hyjin/bunyan-emailstream/issues"
@@ -30,5 +29,8 @@
   },
   "devDependencies": {
     "bunyan": "~0.22.1"
+  },
+  "directories": {
+    "test": "test"
   }
 }
