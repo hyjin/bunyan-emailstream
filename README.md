@@ -5,7 +5,7 @@ Send email on bunyan log record.
 
 This module is cheap way to send email on
 [bunyan](https://github.com/trentm/node-bunyan) log record using
-[nodemailer](https://github.com/andris9/Nodemailer/tree/0.7).
+[nodemailer](https://github.com/andris9/Nodemailer).
 
 ## Quick Usage Example
 
@@ -21,9 +21,8 @@ var emailStream = new EmailStream(
   { from: 'fatal@example.com',
     to: 'me@example.com'
   },
-  // Nodemailer transportOptions
-  { type: 'SMTP',
-    service: 'gmail',
+  // Nodemailer transporter
+  { service: 'gmail',
     auth: {
       user: 'username',
       pass: 'password'
@@ -86,17 +85,14 @@ var EmailStream = require('bunyan-emailstream').EmailStream;
 Create stream instance
 
 ```js
-var emailStream = new EmailStream(mailOptions, transportOptions);
+var emailStream = new EmailStream(mailOptions, transporter);
 ```
 
 Where,
 * `mailOptions` is options of composing email message. See
 [mailOptions](#mailoptions-required) for more detail.
-* `transportOptions` is options for nodemailer's `createTransport`
-  except `type` property may be specified in the object. When `type` is omitted
-`'SENDMAIL'` will be used by default.
-Refer
-[transportOptions](#transportoptions) section for detailed options.
+* `transporter` is one for nodemailer's [avalible transports](https://github.com/andris9/Nodemailer#available-transports).
+Refer [transporter](#transporter) section for detailed options.
 
 Pass to bunyan logger as a 'raw' type stream
 
@@ -124,21 +120,22 @@ process.on('uncaughtException', function (err) {
 
 mailOptions will be passed to `nodemail.transport.sendMail()` when log
 record comes via `EmailStream#write`.
-See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7#e-mail-message-fields)
+You may need to specify body type in the `mailOptions`.
+
+* **bodyType**: _(optional)_ sets how email was rendered on client. One of `'text'` or `'html'`. Default is `'text'`.
+`bodyType` property will be extracted from the object and used as property name of email body.
+
+See [nodemailer document](https://github.com/andris9/Nodemailer#e-mail-message-fields)
 for full list of options.
 
-#### transportOptions
+#### transporter
 
-You may need to specify transport type in the `transportOptions`.
+`transporter` is argument for `modemailer.createTransport()`, one for nodemailer's
+[avalible transports](https://github.com/andris9/Nodemailer#available-transports),
+or plain object (creates SMTP transport). When omitted SMTP direct transport will be used by default.
 
-* **type**: _(optional)_ transport type passed to
-  `nodemail.createTransport()`. Default is `'SENDMAIL'`.
-
-`type` property will be extracted from the object and passed to first
-argument of `nodemail.createTransport(type, options)`, the remaining
-object will be passed to second argument.
-See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7)
-for available transport and full list of options.
+See [nodemailer document](https://github.com/andris9/Nodemailer#setting-up)
+for available transports and full list of options.
 
 ### Events
 
