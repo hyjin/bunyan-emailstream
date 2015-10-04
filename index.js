@@ -29,6 +29,7 @@ exports.formatBody = formatBody;
 function EmailStream(mailOptions, transportOptions) {
     Stream.call(this);
     this.writable = true;
+    this.pendingMail = [];
 
     this._mailOptions = extend({}, mailOptions);
 
@@ -57,18 +58,32 @@ EmailStream.prototype.write = function (log) {
     }
     message.text = this.formatBody(log);
 
-    this._transport.sendMail(message, function (err, response) {
-        if (err) {
-            self.emit('error', err);
-        } else {
-            self.emit('mailSent', response);
-        }
-    });
+    this.pendingMail.push(new Promise(function(resolve, reject) {
+        self._transport.sendMail(message, function (err, response) {
+            if (err) {
+                self.emit('error', err);
+            } else {
+                self.emit('mailSent', response);
+            }
+            
+            resolve();
+        });
+    }));
 };
 
-EmailStream.prototype.end = function () {
-    if (this._transport) {
-        this._transport.close();
+EmailStream.prototype.end = function (force) {
+    var self = this;
+    
+    if (0 < arguments.length && force) {
+        self._transport.close();
+    } else if (self._transport) {
+        Promise.all(self.pendingMail)
+            .then(function() {
+                if (self._transport) {
+                    self._transport.close();
+                }
+            })
+         ;
     }
 };
 
