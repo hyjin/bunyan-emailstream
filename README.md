@@ -140,6 +140,22 @@ object will be passed to second argument.
 See [nodemailer document](https://github.com/andris9/Nodemailer/tree/0.7)
 for available transport and full list of options.
 
+### Closing the email stream
+When you are finished with your stream, you should close it.
+
+To close the stream gracefully, that is, making it wait for any pending email
+to be sent, simply call `end`:
+```js
+	emailStream.end();
+```
+To close the stream by force, enable the force flag by passing true:
+```js
+	emailStream.end(true);
+```
+
+Note that if you force-close the stream before Bunyan tries to write to the
+stream, you will get a `TypeError: this.socket.write is not a function` error.
+
 ### Events
 
 #### Event: `mailSent`
